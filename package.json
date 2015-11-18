@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "description": "my first socket.io app",
   "main": "index.js",
-  
+  "scripts": {
+    "start": "node ./index.js"
+  },
   "author": "Tony",
   "license": "ISC",
   "dependencies": {
