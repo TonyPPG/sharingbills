@@ -4,7 +4,7 @@
   "description": "my first socket.io app",
   "main": "index.js",
   "scripts": {
-    "start": "node ./index"
+    "start": "node ./index.js"
   },
   "author": "Tony",
   "license": "ISC",
