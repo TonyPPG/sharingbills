@@ -15,6 +15,7 @@ var $inputMessage = $('.inputMessage'); // Input message input box
 
 var $loginPage = $('.login.page'); // The login page
 var $chatPage = $('.chat.page'); // The chatroom page
+var $enterButton = $('.enterb'); // 
 
 // Prompt for setting a username
 var username;
@@ -166,7 +167,14 @@ $window.keydown(function (event) {
 	}
 });
 
-
+$enterButton.click(function(){
+	if (username) {
+		sendMessage();
+		typing = false;
+	} else {
+		setUsername();
+	}
+});
 
 // Focus input when clicking anywhere on login page
 $loginPage.click(function () {
