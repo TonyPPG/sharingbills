@@ -9,6 +9,8 @@ app.use(express.static(__dirname+'/public'));
 
 var usernames = {};
 var numUsers = 0;
+var totalMoney = 0;
+
 
 io.on('connection', function(socket){
 	var addedUser = false;
@@ -36,6 +38,14 @@ io.on('connection', function(socket){
 			username: socket.username,
 			numUsers: numUsers
 		});
+	});
+
+	socket.on('add offline user', function(){
+		numUsers++;
+	});
+
+	socket.on('delete offline user', function(){
+		numUsers--;
 	});
 
 	

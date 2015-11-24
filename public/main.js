@@ -24,6 +24,8 @@ var typing = false;
 var lastTypingTime;
 var $currentInput = $usernameInput.focus();
 
+var totalMoney = 0;
+
 var socket = io();
 
 function addParticipantsMessage (data) {
@@ -60,11 +62,11 @@ function sendMessage () {
 	// if there is a non-empty message and a socket connection
 	if (message && connected) {
 		$inputMessage.val('');
-		console.log('here');
 		addChatMessage({
 			username: username,
 			message: message
 		});
+		refreshResult();
 	  // tell server to execute 'new message' and send along one parameter
 	  socket.emit('chat message', message);
 	}
@@ -132,6 +134,11 @@ function addMessageElement (el, options) {
 // Prevents input from having injected markup
 function cleanInput (input) {
 	return $('<div/>').text(input).text();
+}
+
+//refresh result
+function refreshResult(){
+	log('ffff');
 }
 
 
