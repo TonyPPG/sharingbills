@@ -17,10 +17,17 @@ io.on('connection', function(socket){
 
 	//when the clients emits 'new message', this listens and executes
 	socket.on('chat message', function(msg){
+		var items = msg.split(" ");
+		var money = Number(items.pop());
+		if (money) {
+			totalMoney += money;
+		};
 		// tell client to execute 'new message'
 		socket.broadcast.emit('new message', {
 			username: socket.username,
-			message: msg
+			message: msg,
+			totalMoney: totalMoney,
+			numUsers: numUsers
 		});
 	});
 
@@ -36,7 +43,26 @@ io.on('connection', function(socket){
 		// echo that person has connected
 		socket.broadcast.emit('user joined', {
 			username: socket.username,
-			numUsers: numUsers
+			numUsers: numUsers,
+			totalMoney: totalMoney
+		});
+	});
+
+	socket.on('add person', function(){
+		numUsers++;
+		socket.broadcast.emit('refresh', {
+			username: socket.username,
+			numUsers: numUsers,
+			totalMoney: totalMoney
+		});
+	});
+
+	socket.on('minus person', function(){
+		numUsers--;
+		socket.broadcast.emit('refresh', {
+			username: socket.username,
+			numUsers: numUsers,
+			totalMoney: totalMoney
 		});
 	});
 

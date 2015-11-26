@@ -15,7 +15,10 @@ var $inputMessage = $('.inputMessage'); // Input message input box
 
 var $loginPage = $('.login.page'); // The login page
 var $chatPage = $('.chat.page'); // The chatroom page
-var $enterButton = $('.enterb'); // 
+var $enterButton = $('.enterb'); // The push button
+var $addPerson = $('#addperson');// add button
+var $minusPerson = $('#minusperson');// minus button
+
 
 // Prompt for setting a username
 var username;
@@ -24,6 +27,7 @@ var typing = false;
 var lastTypingTime;
 var $currentInput = $usernameInput.focus();
 
+var paidMoney = 0;
 var totalMoney = 0;
 
 var socket = io();
@@ -57,8 +61,14 @@ function setUsername () {
 // Sends a chat message
 function sendMessage () {
 	var message = $inputMessage.val();
+	var items = message.split(" ");
+	var money = Number(items.pop());
+	if (money) {
+		paidMoney += money;
+	};
 	// Prevent markup from being injected into the message
 	message = cleanInput(message);
+	$currentInput = $inputMessage.focus();
 	// if there is a non-empty message and a socket connection
 	if (message && connected) {
 		$inputMessage.val('');
@@ -66,7 +76,6 @@ function sendMessage () {
 			username: username,
 			message: message
 		});
-		refreshResult();
 	  // tell server to execute 'new message' and send along one parameter
 	  socket.emit('chat message', message);
 	}
@@ -137,8 +146,19 @@ function cleanInput (input) {
 }
 
 //refresh result
-function refreshResult(){
-	log('ffff');
+function refreshResult(data){
+	totalMoney = Number(data.totalMoney);
+	var avgMoney = Number(data.totalMoney)/Number(data.numUsers);
+	log(paidMoney + ' you paid');
+	log('Average price = '+ avgMoney);
+	if(paidMoney > avgMoney){
+		log('You should collect $'+ (paidMoney - avgMoney));
+	}else if(paidMoney == avgMoney){
+		log('You are even');
+	}else{
+		log('You should pay $'+ (avgMoney - paidMoney));
+	}
+	addParticipantsMessage(data);
 }
 
 
@@ -183,6 +203,14 @@ $enterButton.click(function(){
 	}
 });
 
+$addPerson.click(function(){
+	socket.emit('add person');
+});
+
+$minusPerson.click(function(){
+	socket.emit('minus person');
+});
+
 // Focus input when clicking anywhere on login page
 $loginPage.click(function () {
 	$currentInput.focus();
@@ -206,15 +234,23 @@ socket.on('login', function (data) {
 	addParticipantsMessage(data);
 });
 
+// Refresh
+socket.on('refresh', function(data){
+	refreshResult(data);
+});
+
 // Whenever the server emits 'new message', update the chat body
 socket.on('new message', function (data) {
 	addChatMessage(data);
+	log(data.totalMoney+'totalMoney');
+	refreshResult(data);
 });
 
 // Whenever the server emits 'user joined', log it in the chat body
 socket.on('user joined', function (data) {
 	log(data.username + ' joined');
 	addParticipantsMessage(data);
+	refreshResult(data);
 });
 
 // Whenever the server emits 'user left', log it in the chat body
