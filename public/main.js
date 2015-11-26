@@ -18,6 +18,7 @@ var $chatPage = $('.chat.page'); // The chatroom page
 var $enterButton = $('.enterb'); // The push button
 var $addPerson = $('#addperson');// add button
 var $minusPerson = $('#minusperson');// minus button
+var $resetButton = $('#resetmoney');// minus button
 
 
 // Prompt for setting a username
@@ -72,12 +73,12 @@ function sendMessage () {
 	// if there is a non-empty message and a socket connection
 	if (message && connected) {
 		$inputMessage.val('');
-		addChatMessage({
-			username: username,
-			message: message
-		});
-	  // tell server to execute 'new message' and send along one parameter
-	  socket.emit('chat message', message);
+		// addChatMessage({
+		// 	username: username,
+		// 	message: message
+		// });
+		// tell server to execute 'new message' and send along one parameter
+		socket.emit('chat message', message);
 	}
 }
 
@@ -211,6 +212,11 @@ $minusPerson.click(function(){
 	socket.emit('minus person');
 });
 
+$resetButton.click(function(){
+	socket.emit('reset money');
+});
+
+
 // Focus input when clicking anywhere on login page
 $loginPage.click(function () {
 	$currentInput.focus();
@@ -236,6 +242,11 @@ socket.on('login', function (data) {
 
 // Refresh
 socket.on('refresh', function(data){
+	refreshResult(data);
+});
+
+socket.on('reset paid', function(data){
+	paidMoney = 0;
 	refreshResult(data);
 });
 

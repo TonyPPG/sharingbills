@@ -23,7 +23,7 @@ io.on('connection', function(socket){
 			totalMoney += money;
 		};
 		// tell client to execute 'new message'
-		socket.broadcast.emit('new message', {
+		io.sockets.emit('new message', {
 			username: socket.username,
 			message: msg,
 			totalMoney: totalMoney,
@@ -50,7 +50,7 @@ io.on('connection', function(socket){
 
 	socket.on('add person', function(){
 		numUsers++;
-		socket.broadcast.emit('refresh', {
+		io.sockets.emit('refresh', {
 			username: socket.username,
 			numUsers: numUsers,
 			totalMoney: totalMoney
@@ -59,22 +59,22 @@ io.on('connection', function(socket){
 
 	socket.on('minus person', function(){
 		numUsers--;
-		socket.broadcast.emit('refresh', {
+		io.sockets.emit('refresh', {
 			username: socket.username,
 			numUsers: numUsers,
 			totalMoney: totalMoney
 		});
 	});
 
-	socket.on('add offline user', function(){
-		numUsers++;
+	socket.on('reset money', function(){
+		totalMoney = 0;
+		io.sockets.emit('reset paid', {
+			username: socket.username,
+			numUsers: numUsers,
+			totalMoney: totalMoney
+		});
 	});
 
-	socket.on('delete offline user', function(){
-		numUsers--;
-	});
-
-	
 
 
 	socket.on('disconnect', function(){
