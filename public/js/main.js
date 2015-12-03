@@ -13,12 +13,14 @@ var $usernameInput = $('.usernameInput'); // Input for username
 var $messages = $('.messages'); // Messages area
 var $inputMessage = $('.inputMessage'); // Input message input box
 
-var $loginPage = $('.login.page'); // The login page
-var $chatPage = $('.chat.page'); // The chatroom page
+var $loginPage = $('#loginpage'); // The login page
+var $chatPage = $('#chatpage'); // The chatroom page
 var $enterButton = $('.enterb'); // The push button
 var $addPerson = $('#addperson');// add button
 var $minusPerson = $('#minusperson');// minus button
 var $resetButton = $('#resetmoney');// minus button
+
+$loginPage.modal('show');
 
 
 // Prompt for setting a username
@@ -49,7 +51,7 @@ function setUsername () {
 
 	// If the username is valid
 	if (username) {
-		$loginPage.fadeOut();
+		$loginPage.modal('hide');
 		$chatPage.show();
 		$loginPage.off('click');
 		$currentInput = $inputMessage.focus();
