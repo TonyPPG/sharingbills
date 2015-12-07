@@ -2,12 +2,28 @@
 <html>
 <head>
   <title>Sharing Bills</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> 
   <link rel="stylesheet" type="text/css" href=" /css/bootstrap.min.css" >
 </head>
 <body>
+  
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">
+          <span class="glyphicon glyphicon-list" aria-hidden="true"></span> Summary
+        </a>
+      </div>
+    </div>
+  </nav>
+  <br>
   <div class="container">
-
     <!-- Modal -->
     <div class="modal fade" id="loginpage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog" role="document">
@@ -28,32 +44,28 @@
         </div>
       </div>
     </div>
-    <!-- <div class="row form-inline" id="loginpage">
-      <h3 class="text-center">What's your nickname?</h3>
-      <div class="col-md-4 col-md-offset-4">
-        <center>
-          <input class="usernameInput form-control" type="text" maxlength="14" />
-          <button type="button" class="btn btn-default enterb form-control"> Confirm</button>
-        </center>
-      </div>
-    </div> -->
     <div class="chat page" id="chatpage">
       <div class="chatArea">
         <ul class="messages"></ul>
       </div>
-      <div class="form-inline">
-        <div class="form-group">
-          <div class="col-md-6">
-            <input class="inputMessage form-control" placeholder="Type here..."/>
-          </div>
-          <button class="enterb col-md-2 btn-default btn form-control btn-primary"> Push</button>
-          <button id="addperson" class="col-md-1 btn-default btn form-control btn-primary" type="button"> +</button>
-          <button id="minusperson" class="col-md-1 btn-default btn form-control btn-primary">-</button>
-          <button id="resetmoney" class="col-md-2 btn-default btn form-control btn-primary">reset money</button>
-        </div>
-      </div>
     </div>
   </div>
+  <nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+      <div class="input-group input-group-lg">
+        <input type="text" class="inputMessage form-control" placeholder="Item + Space + Price">
+        <div class="input-group-btn">
+          <button class="enterb btn btn-default" type="button">
+            <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Push</button>
+        </div>
+      </div>
+      <div class="btn-group btn-group-lg">
+        <button id="addperson" class="col-xs-3 col-md-3 btn-default btn" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+        <button id="minusperson" class="col-xs-3 col-md-3 btn-default btn"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+        <button id="resetmoney" class="col-xs-6 col-md-6 btn-default btn"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reset</button>
+      </div>
+    </div>
+  </nav>
   <script src="/socket.io/socket.io.js"></script>
   <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
   <script src="/js/bootstrap.min.js"></script>
