@@ -10,6 +10,8 @@ html {
       -ms-text-size-adjust: 100%;
 }
 body {
+  padding-top: 50px;
+  padding-bottom: 80px;
   margin: 0;
 }
 article,

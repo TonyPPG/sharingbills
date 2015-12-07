@@ -38,6 +38,7 @@ io.on('connection', function(socket){
 		++numUsers;
 		addedUser = true;
 		socket.emit('login',{
+			username: socket.username,
 			numUsers: numUsers
 		});
 		// echo that person has connected

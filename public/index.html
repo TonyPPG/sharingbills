@@ -3,19 +3,14 @@
 <head>
   <title>Sharing Bills</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> 
-  <link rel="stylesheet" type="text/css" href=" /css/bootstrap.min.css" >
+  <link rel="stylesheet" type="text/css" href=" /css/bootstrap.css" >
 </head>
 <body>
-  
+
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
+      <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
         <a class="navbar-brand" href="#">
           <span class="glyphicon glyphicon-list" aria-hidden="true"></span> Summary
         </a>
@@ -57,18 +52,18 @@
         <div class="input-group-btn">
           <button class="enterb btn btn-default" type="button">
             <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Push</button>
+          </div>
+        </div>
+        <div class="btn-group btn-group-lg">
+          <button id="addperson" class="col-xs-3 col-md-3 btn-default btn" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+          <button id="minusperson" class="col-xs-3 col-md-3 btn-default btn"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+          <button id="resetmoney" class="col-xs-6 col-md-6 btn-default btn"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reset</button>
         </div>
       </div>
-      <div class="btn-group btn-group-lg">
-        <button id="addperson" class="col-xs-3 col-md-3 btn-default btn" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-        <button id="minusperson" class="col-xs-3 col-md-3 btn-default btn"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
-        <button id="resetmoney" class="col-xs-6 col-md-6 btn-default btn"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reset</button>
-      </div>
-    </div>
-  </nav>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-  <script src="/js/bootstrap.min.js"></script>
-  <script src="/js/main.js"></script>
-</body>
-</html>
+    </nav>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script>
+  </body>
+  </html>

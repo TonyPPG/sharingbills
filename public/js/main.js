@@ -235,7 +235,7 @@ $inputMessage.click(function () {
 socket.on('login', function (data) {
 	connected = true;
 	// Display the welcome message
-	var message = "Welcome – ";
+	var message = "Welcome – " + data.username;
 	log(message, {
 		prepend: true
 	});
