@@ -19,6 +19,7 @@ var $enterButton = $('.enterb'); // The push button
 var $addPerson = $('#addperson');// add button
 var $minusPerson = $('#minusperson');// minus button
 var $resetButton = $('#resetmoney');// minus button
+var $summaryInfo = $('#summaryinfo');//summary information
 
 $loginPage.modal('show');
 
@@ -96,7 +97,7 @@ function addChatMessage (data, options) {
 	options = options || {};
 
 	var $usernameDiv = $('<span class="username"/>')
-	.text(data.username)
+	.text(data.username+': ')
 	.css('color', getUsernameColor(data.username));
 	var $messageBodyDiv = $('<span class="messageBody">')
 	.text(data.message);
@@ -152,15 +153,25 @@ function cleanInput (input) {
 function refreshResult(data){
 	totalMoney = Number(data.totalMoney);
 	var avgMoney = Number(data.totalMoney)/Number(data.numUsers);
-	log(paidMoney + ' you paid');
-	log('Average price = '+ avgMoney);
+
+	var summary = '$' + data.totalMoney+' in total<br>Average price is $'+ avgMoney + '<br>';
 	if(paidMoney > avgMoney){
-		log('You should collect $'+ (paidMoney - avgMoney));
+		summary += 'You should collect $'+ (paidMoney - avgMoney) + '<br>';
 	}else if(paidMoney == avgMoney){
-		log('You are even');
+		summary += 'You are even' + '<br>';
 	}else{
-		log('You should pay $'+ (avgMoney - paidMoney));
+		summary += 'You should pay $'+ (avgMoney - paidMoney) + '<br>';
 	}
+	$summaryInfo.html(summary);
+	// log(paidMoney + ' you paid');
+	// log('Average price = '+ avgMoney);
+	// if(paidMoney > avgMoney){
+	// 	log('You should collect $'+ (paidMoney - avgMoney));
+	// }else if(paidMoney == avgMoney){
+	// 	log('You are even');
+	// }else{
+	// 	log('You should pay $'+ (avgMoney - paidMoney));
+	// }
 	addParticipantsMessage(data);
 }
 
@@ -255,7 +266,6 @@ socket.on('reset paid', function(data){
 // Whenever the server emits 'new message', update the chat body
 socket.on('new message', function (data) {
 	addChatMessage(data);
-	log(data.totalMoney+'totalMoney');
 	refreshResult(data);
 });
 
