@@ -9,6 +9,7 @@ app.use(express.static(__dirname+'/public'));
 
 var usernames = {};
 var numUsers = 0;
+var numNonpayers = 0;
 var totalMoney = 0;
 
 
@@ -27,7 +28,8 @@ io.on('connection', function(socket){
 			username: socket.username,
 			message: msg,
 			totalMoney: totalMoney,
-			numUsers: numUsers
+			numUsers: numUsers,
+			numNonpayers: numNonpayers
 		});
 	});
 
@@ -45,26 +47,33 @@ io.on('connection', function(socket){
 		socket.broadcast.emit('user joined', {
 			username: socket.username,
 			numUsers: numUsers,
+			numNonpayers: numNonpayers,
 			totalMoney: totalMoney
 		});
 	});
 
 	socket.on('add person', function(){
-		numUsers++;
+		numNonpayers++;
 		io.sockets.emit('refresh', {
 			username: socket.username,
 			numUsers: numUsers,
-			totalMoney: totalMoney
+			numNonpayers: numNonpayers,
+			totalMoney: totalMoney,
+			refreshParticipant: true
 		});
 	});
 
 	socket.on('minus person', function(){
-		numUsers--;
-		io.sockets.emit('refresh', {
-			username: socket.username,
-			numUsers: numUsers,
-			totalMoney: totalMoney
-		});
+		if (numNonpayers > 0) {
+			numNonpayers--;
+			io.sockets.emit('refresh', {
+				username: socket.username,
+				numUsers: numUsers,
+				numNonpayers: numNonpayers,
+				totalMoney: totalMoney,
+				refreshParticipant: true
+			});
+		}
 	});
 
 	socket.on('reset money', function(){
@@ -72,6 +81,7 @@ io.on('connection', function(socket){
 		io.sockets.emit('reset paid', {
 			username: socket.username,
 			numUsers: numUsers,
+			numNonpayers: numNonpayers,
 			totalMoney: totalMoney
 		});
 	});

@@ -1,5 +1,5 @@
 $(function() {
-var FADE_TIME = 150; // ms
+var FADE_TIME = 700; // ms
 var TYPING_TIMER_LENGTH = 400; // ms
 var COLORS = [
 '#e21400', '#91580f', '#f8a700', '#f78b00',
@@ -20,6 +20,7 @@ var $addPerson = $('#addperson');// add button
 var $minusPerson = $('#minusperson');// minus button
 var $resetButton = $('#resetmoney');// minus button
 var $summaryInfo = $('#summaryinfo');//summary information
+var $participant = $('#participant');//participants information
 
 $loginPage.modal('show');
 
@@ -38,12 +39,9 @@ var socket = io();
 
 function addParticipantsMessage (data) {
 	var message = '';
-	if (data.numUsers === 1) {
-		message += "there's 1 participant";
-	} else {
-		message += "there are " + data.numUsers + " participants";
-	}
-	log(message);
+	message += data.numUsers + " participant(s) and " + (data.numNonpayers!=undefined? data.numNonpayers : 0) + " none login payer(s)";
+	logUsers(message);
+	// log(message);
 }
 
 // Sets the client's username
@@ -89,6 +87,12 @@ function sendMessage () {
 function log (message, options) {
 	var $el = $('<li>').addClass('log').text(message);
 	addMessageElement($el, options);
+}
+
+// Log when number of participants change
+function logUsers(message){
+	$participant.text(message);
+	$participant.fadeIn(FADE_TIME).delay(1.5*FADE_TIME).fadeOut(FADE_TIME);
 }
 
 // Adds the visual chat message to the message list
@@ -152,9 +156,11 @@ function cleanInput (input) {
 //refresh result
 function refreshResult(data){
 	totalMoney = Number(data.totalMoney);
-	var avgMoney = Number(data.totalMoney)/Number(data.numUsers);
+	var totalPeople = Number(data.numUsers) + Number(data.numNonpayers);
+	var avgMoney = Number(data.totalMoney)/totalPeople;
 
 	var summary = '$' + data.totalMoney+' in total<br>Average price is $'+ avgMoney + '<br>';
+	summary += 'Number of People: ' + totalPeople + "<br>";
 	if(paidMoney > avgMoney){
 		summary += 'You should collect $'+ (paidMoney - avgMoney) + '<br>';
 	}else if(paidMoney == avgMoney){
@@ -172,7 +178,8 @@ function refreshResult(data){
 	// }else{
 	// 	log('You should pay $'+ (avgMoney - paidMoney));
 	// }
-	addParticipantsMessage(data);
+	if (data.refreshParticipant) addParticipantsMessage(data);
+	
 }
 
 
