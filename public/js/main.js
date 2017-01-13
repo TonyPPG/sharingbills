@@ -159,25 +159,16 @@ function refreshResult(data){
 	var totalPeople = Number(data.numUsers) + Number(data.numNonpayers);
 	var avgMoney = Number(data.totalMoney)/totalPeople;
 
-	var summary = '$' + data.totalMoney+' in total<br>Average price is $'+ avgMoney + '<br>';
+	var summary = '$' + data.totalMoney+' in total<br>Average price is $'+ avgMoney.toFixed(2) + '<br>';
 	summary += 'Number of People: ' + totalPeople + "<br>";
 	if(paidMoney > avgMoney){
-		summary += 'You should collect $'+ (paidMoney - avgMoney) + '<br>';
+		summary += 'You should collect $'+ (paidMoney - avgMoney).toFixed(2) + '<br>';
 	}else if(paidMoney == avgMoney){
 		summary += 'You are even' + '<br>';
 	}else{
-		summary += 'You should pay $'+ (avgMoney - paidMoney) + '<br>';
+		summary += 'You should pay $'+ (avgMoney - paidMoney).toFixed(2) + '<br>';
 	}
 	$summaryInfo.html(summary);
-	// log(paidMoney + ' you paid');
-	// log('Average price = '+ avgMoney);
-	// if(paidMoney > avgMoney){
-	// 	log('You should collect $'+ (paidMoney - avgMoney));
-	// }else if(paidMoney == avgMoney){
-	// 	log('You are even');
-	// }else{
-	// 	log('You should pay $'+ (avgMoney - paidMoney));
-	// }
 	if (data.refreshParticipant) addParticipantsMessage(data);
 	
 }
